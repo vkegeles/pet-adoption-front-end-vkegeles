@@ -8,10 +8,26 @@ import PetPage from "./components/PetPage";
 import { PetListContext } from "./context/PetListContext";
 import LandingPage from "./components/LandingPage";
 import Theme from "./context/Theme";
-import NavBar from "./components/NavBar";
 import { CssBaseline } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import NavBar from "./components/NavBar";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    padding: 0,
+  },
+  background: {
+    backgroundImage: "url(/paws-2.png)",
+    backgroundRepeat: "repeat",
+    backgroundSize: "20vh",
+    backgroundPosition: "center bottom",
+    paddingTop: 20,
+  },
+}));
 
 function App() {
+  const classes = useStyles();
   let pets = [
     {
       id: 1,
@@ -27,7 +43,7 @@ function App() {
       bio: "Cute cat want to find a new family",
       nonAllergy: true,
       diet: "only meat",
-      breed: "none",
+      breed: "American Shorthair",
     },
     {
       id: 2,
@@ -43,7 +59,7 @@ function App() {
       bio: "Cute cat want to find a new family",
       nonAllergy: true,
       diet: "only meat",
-      breed: "none",
+      breed: "Domestic",
     },
     {
       id: 3,
@@ -59,7 +75,7 @@ function App() {
       bio: "Cute cat want to find a new family",
       nonAllergy: true,
       diet: "only meat",
-      breed: "none",
+      breed: "British Shorthair",
     },
     {
       id: 4,
@@ -75,7 +91,7 @@ function App() {
       bio: "Cute dog want to find a new family",
       nonAllergy: true,
       diet: "only meat",
-      breed: "none",
+      breed: "Domestic",
     },
     {
       id: 5,
@@ -91,7 +107,7 @@ function App() {
       bio: "Cute dog want to find a new family",
       nonAllergy: true,
       diet: "only meat",
-      breed: "none",
+      breed: "Domestic",
     },
   ];
   return (
@@ -101,9 +117,14 @@ function App() {
         <Router>
           <MotionLayoutProvider>
             <PetListContext.Provider value={pets}>
-              <Route exact path="/" component={LandingPage} />
-              <Route exact path="/pets" component={SearchPage} />
-              <Route path="/pets/:id" component={PetPage} />
+              <div className={classes.root}>
+                <NavBar />
+                <Route exact path="/" component={LandingPage} />
+                <div className={classes.background}>
+                  <Route exact path="/pets" component={SearchPage} />
+                  <Route path="/pets/:id" component={PetPage} />
+                </div>
+              </div>
             </PetListContext.Provider>
             <Copyright />
           </MotionLayoutProvider>

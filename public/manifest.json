@@ -10,7 +10,16 @@
     {
       "src": "parrot.svg",
       "sizes": "64x64 32x32 24x24 16x16"
+    },
+    {
+      "src": "paws.png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "paws-2.png",
+      "sizes": "64x64"
     }
+
   ],
   "start_url": ".",
   "display": "standalone",

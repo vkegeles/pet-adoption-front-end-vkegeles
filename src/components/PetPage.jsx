@@ -3,16 +3,15 @@ import { usePetList } from "../context/PetListContext";
 import { Grid, Typography, Card, CardContent } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { MotionScene, SharedElement, MotionScreen } from "react-motion-layout";
+import Gender from "./Gender/Gender";
 
 const useStyles = makeStyles({
   card: {
     display: "flex",
+    margin: "0 20px",
   },
   cardDetails: {
     flex: 1,
-  },
-  cardMedia: {
-    width: 300,
   },
   sharedDiv: {
     backgroundSize: "cover",
@@ -21,7 +20,10 @@ const useStyles = makeStyles({
     width: 900,
     height: 900,
 
-    // backgroundImage: `url("${image}")`,
+    cardname: {
+      display: "flex",
+      alignItems: "flex-start",
+    },
   },
 });
 
@@ -34,48 +36,47 @@ export default function PetPage(props) {
   const composedStyle = { backgroundImage: `url("${pet.picture}")` };
   return (
     <MotionScreen>
-      <MotionScene easing="linear" name={`pet-${pet.id}`}>
+      <MotionScene easing="cubic-bezier(0, 0, .58, 1)" name={`pet-${pet.id}`}>
         <Card className={classes.card}>
-          {/* <CardMedia
-                className={classes.cardMedia}
-                image={pet.picture}
-                src="picture"
-                title={pet.name}
-              > */}
           <SharedElement.Div
             animationKey="div"
             className={classes.sharedDiv}
             style={composedStyle}
           />
-          {/* </CardMedia> */}
           <div className={classes.cardDetails}>
-            <CardContent>
-              <Typography component="h2" variant="h5">
-                <SharedElement.Text
-                  className="font-semibold"
-                  animationKey="name"
+            <SharedElement.Div animationKey="cardcontent">
+              <CardContent>
+                <Typography
+                  component="h2"
+                  variant="h5"
+                  color="primary"
+                  style={{ fontWeight: 700 }}
                 >
-                  {pet.name}
-                </SharedElement.Text>
-              </Typography>
-              <Typography variant="subtitle1" color="textSecondary">
-                <SharedElement.Text
-                  className="font-semibold"
-                  animationKey="type"
+                  Hi
+                  {/* <SharedElement.Text
+                    animationKey="name"
+                    className={classes.cardname}
+                  >
+                    {pet.name} <Gender gender={pet.gender} />
+                  </SharedElement.Text> */}
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  color="textSecondary"
+                  gutterBottom
                 >
-                  {pet.type}{" "}
-                </SharedElement.Text>
-              </Typography>
-              <Typography variant="subtitle1" paragraph>
-                Gender: {pet.gender}
-              </Typography>
-              <Typography variant="subtitle1" paragraph>
-                Pet status: {pet.adoptionStatus}
-              </Typography>
-              <Typography variant="subtitle1" color="primary">
-                Show more...
-              </Typography>
-            </CardContent>
+                  {/* <SharedElement.Text animationKey="type">
+                    {pet.breed} {pet.type}
+                  </SharedElement.Text> */}
+                </Typography>
+                <Typography variant="subtitle1" paragraph>
+                  Pet status: {pet.adoptionStatus}
+                </Typography>
+                <Typography variant="subtitle1" color="primary">
+                  Show more...
+                </Typography>
+              </CardContent>
+            </SharedElement.Div>
           </div>
         </Card>
       </MotionScene>

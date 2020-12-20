@@ -3,13 +3,8 @@ import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper, Grid, Typography, Button } from "@material-ui/core";
 import SearchBar from "material-ui-search-bar";
-import NavBar from "./NavBar";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    padding: 0,
-  },
   main: {
     position: "relative",
     display: "flex",
@@ -64,7 +59,6 @@ export default function LandingPage(props) {
 
   return (
     <div className={classes.root}>
-      <NavBar />
       <Paper className={classes.main}>
         <div className={classes.overlay} />
         <Grid container>
@@ -87,6 +81,11 @@ export default function LandingPage(props) {
                   variant="contained"
                   color="primary"
                   className={classes.buttonMainPage}
+                  onClick={() =>
+                    history.push({
+                      pathname: "/login",
+                    })
+                  }
                 >
                   Take Care
                 </Button>

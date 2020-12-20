@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import {
   Grid,
   Typography,
-  CardMedia,
   CardActionArea,
   Card,
   CardContent,
@@ -12,7 +11,9 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { SharedElement, MotionScene, useMotion } from "react-motion-layout";
-import { transparent } from "material-ui/styles/colors";
+import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
+import { IconButton } from "@material-ui/core";
+import Gender from "./Gender/Gender";
 
 const useStyles = makeStyles({
   card: {
@@ -21,12 +22,15 @@ const useStyles = makeStyles({
   cardDetails: {
     flex: 1,
   },
-  cardMedia: {
-    width: 300,
-  },
   sharedDiv: {
-    background: transparent,
-    width: 300,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    width: 250,
+  },
+  cardname: {
+    display: "flex",
+    alignItems: "flex-start",
   },
 });
 
@@ -38,6 +42,7 @@ export default function PetCard({ pet }) {
     history,
     pet.id,
   ]);
+  const composedStyle = { backgroundImage: `url("${pet.picture}")` };
 
   return (
     <Grid item xs={12} md={6}>
@@ -46,52 +51,60 @@ export default function PetCard({ pet }) {
         name={`pet-${pet.id}`}
         onClick={withTransition(callback)}
       >
-        <CardActionArea component="div">
-          <Card className={classes.card}>
-            <Hidden xsDown>
-              <CardMedia
-                className={classes.cardMedia}
-                image={pet.picture}
-                src="picture"
-                title={pet.name}
-              >
-                <SharedElement.Div
-                  animationKey="div"
-                  className={classes.sharedDiv}
-                />
-              </CardMedia>
-            </Hidden>
-            <div className={classes.cardDetails}>
-              <CardContent>
-                <Typography component="h2" variant="h5">
-                  <SharedElement.Text
-                    className="font-semibold"
-                    animationKey="name"
+        <Card className={classes.card}>
+          <Hidden xsDown>
+            <SharedElement.Div
+              animationKey="div"
+              className={classes.sharedDiv}
+              style={composedStyle}
+            />
+          </Hidden>
+          <div className={classes.cardDetails}>
+            <CardActionArea component="div">
+              <SharedElement.Div animationKey="cardcontent">
+                <CardContent>
+                  <Typography
+                    component="h2"
+                    variant="h5"
+                    color="primary"
+                    style={{ fontWeight: 700 }}
                   >
-                    {pet.name}
-                  </SharedElement.Text>
-                </Typography>
-                <Typography variant="subtitle1" color="textSecondary">
-                  <SharedElement.Text
-                    className="font-semibold"
-                    animationKey="type"
+                    Hi
+                    {/* <SharedElement.Text
+                      animationKey="name"
+                      className={classes.cardname}
+                    >
+                      {pet.name} <Gender gender={pet.gender} />
+                    </SharedElement.Text> */}
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    color="textSecondary"
+                    gutterBottom
                   >
-                    {pet.type}{" "}
-                  </SharedElement.Text>
-                </Typography>
-                <Typography variant="subtitle1" paragraph>
-                  Gender: {pet.gender}
-                </Typography>
-                <Typography variant="subtitle1" paragraph>
-                  Pet status: {pet.adoptionStatus}
-                </Typography>
-                <Typography variant="subtitle1" color="primary">
-                  Show more...
-                </Typography>
-              </CardContent>
-            </div>
-          </Card>
-        </CardActionArea>
+                    {/* <SharedElement.Text animationKey="type">
+                      {pet.breed} {pet.type}
+                    </SharedElement.Text> */}
+                  </Typography>
+                  <Typography variant="subtitle1" paragraph>
+                    Pet status: {pet.adoptionStatus}
+                  </Typography>
+                  <Typography variant="subtitle1" color="primary">
+                    Show more...
+                  </Typography>
+                </CardContent>
+              </SharedElement.Div>
+            </CardActionArea>
+          </div>
+          <IconButton
+            color="primary"
+            aria-label="favorite"
+            component="span"
+            className={classes.favorite}
+          >
+            <FavoriteBorderOutlinedIcon fontSize="large" />
+          </IconButton>
+        </Card>
       </MotionScene>
     </Grid>
   );
