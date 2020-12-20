@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+  padding-bottom: 1rem;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  background-color: #f7e0e4;
+}
+
+.search-bar {
+  margin-bottom: 1rem;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* background-color: #d6d2d2; */
+}
+
+.wrapper > * {
+  padding: 20px;
+}
