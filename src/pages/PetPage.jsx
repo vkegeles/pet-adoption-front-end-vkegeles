@@ -10,7 +10,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import { MotionScene, SharedElement, MotionScreen } from "react-motion-layout";
-import Gender from "./Gender/Gender";
+import Gender from "../components/Gender/Gender";
 import { pink } from "@material-ui/core/colors";
 
 const useStyles = makeStyles({

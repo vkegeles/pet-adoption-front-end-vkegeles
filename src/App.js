@@ -3,15 +3,14 @@ import { Copyright } from "./components/Copyright";
 import { MotionLayoutProvider } from "react-motion-layout";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import SearchPage from "./components/SearchPage";
-import PetPage from "./components/PetPage";
+import SearchPage from "./pages/SearchPage";
+import PetPage from "./pages/PetPage";
 import { PetListContext } from "./context/PetListContext";
-import LandingPage from "./components/LandingPage";
+import LandingPage from "./pages/LandingPage";
 import Theme from "./context/Theme";
 import { CssBaseline } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import NavBar from "./components/NavBar";
-import { Dashboard } from "@material-ui/icons";
+import NavBar from "./components/NavBar/NavBar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
