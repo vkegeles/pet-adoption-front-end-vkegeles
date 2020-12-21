@@ -3,8 +3,6 @@ import { createMuiTheme } from "@material-ui/core/styles";
 // import { ThemeProvider } from "@material-ui/styles";
 import { ThemeProvider } from "@material-ui/core";
 import { amber, blue, pink, yellow } from "@material-ui/core/colors";
-import { black } from "material-ui/styles/colors";
-import { green } from "@material-ui/core/colors/green";
 
 const theme = createMuiTheme({
   palette: {
@@ -14,6 +12,9 @@ const theme = createMuiTheme({
       default: "#f7e0e4",
       paper: "#ffffff",
     },
+    // text: {
+    //   primary: pink[500],
+    // }
   },
 });
 

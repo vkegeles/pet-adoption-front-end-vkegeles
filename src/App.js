@@ -11,6 +11,7 @@ import Theme from "./context/Theme";
 import { CssBaseline } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import NavBar from "./components/NavBar";
+import { Dashboard } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -110,6 +111,11 @@ function App() {
       breed: "Domestic",
     },
   ];
+  let categories = [
+    { name: "Home page", path: "/" },
+    { name: "Search pet", path: "/pets" },
+    { name: "Add pet", path: "/admin/form" },
+    { name: "Dashboard", path: "/admin/dashboard" }]
   return (
     <Theme>
       <CssBaseline />
@@ -118,7 +124,7 @@ function App() {
           <MotionLayoutProvider>
             <PetListContext.Provider value={pets}>
               <div className={classes.root}>
-                <NavBar />
+                <NavBar categories={categories} />
                 <Route exact path="/" component={LandingPage} />
                 <div className={classes.background}>
                   <Route exact path="/pets" component={SearchPage} />

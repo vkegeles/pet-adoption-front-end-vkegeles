@@ -14,6 +14,7 @@ import { SharedElement, MotionScene, useMotion } from "react-motion-layout";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import { IconButton } from "@material-ui/core";
 import Gender from "./Gender/Gender";
+import { pink } from "@material-ui/core/colors";
 
 const useStyles = makeStyles({
   card: {
@@ -28,9 +29,17 @@ const useStyles = makeStyles({
     backgroundPosition: "center",
     width: 250,
   },
+  sharedDivContent: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    flex: 1,
+  },
   cardname: {
     display: "flex",
     alignItems: "flex-start",
+    fontWeight: 700,
+    color: pink[500],
   },
 });
 
@@ -42,6 +51,7 @@ export default function PetCard({ pet }) {
     history,
     pet.id,
   ]);
+  const favoriteOnClick = (e) => e.stopPropagation();
   const composedStyle = { backgroundImage: `url("${pet.picture}")` };
 
   return (
@@ -59,51 +69,43 @@ export default function PetCard({ pet }) {
               style={composedStyle}
             />
           </Hidden>
-          <div className={classes.cardDetails}>
-            <CardActionArea component="div">
-              <SharedElement.Div animationKey="cardcontent">
+          <SharedElement.Div
+            animationKey="cardcontent"
+            className={classes.sharedDivContent}
+          >
+            <div className={classes.cardDetails}>
+              <CardActionArea component="div">
                 <CardContent>
                   <Typography
                     component="h2"
                     variant="h5"
-                    color="primary"
-                    style={{ fontWeight: 700 }}
+                    className={classes.cardname}
                   >
-                    Hi
-                    {/* <SharedElement.Text
-                      animationKey="name"
-                      className={classes.cardname}
-                    >
-                      {pet.name} <Gender gender={pet.gender} />
-                    </SharedElement.Text> */}
+                    {pet.name} <Gender gender={pet.gender} />{" "}
                   </Typography>
                   <Typography
                     variant="subtitle1"
-                    color="textSecondary"
+                    // color="textSecondary"
                     gutterBottom
                   >
-                    {/* <SharedElement.Text animationKey="type">
-                      {pet.breed} {pet.type}
-                    </SharedElement.Text> */}
+                    {pet.breed} {pet.type}
                   </Typography>
                   <Typography variant="subtitle1" paragraph>
                     Pet status: {pet.adoptionStatus}
                   </Typography>
-                  <Typography variant="subtitle1" color="primary">
-                    Show more...
-                  </Typography>
+                  <Typography variant="subtitle1">Show more...</Typography>
                 </CardContent>
-              </SharedElement.Div>
-            </CardActionArea>
-          </div>
-          <IconButton
-            color="primary"
-            aria-label="favorite"
-            component="span"
-            className={classes.favorite}
-          >
-            <FavoriteBorderOutlinedIcon fontSize="large" />
-          </IconButton>
+              </CardActionArea>
+            </div>
+            <IconButton
+              // color="primary"
+              aria-label="favorite"
+              component="span"
+              onClick={favoriteOnClick}
+            >
+              <FavoriteBorderOutlinedIcon fontSize="large" />
+            </IconButton>
+          </SharedElement.Div>
         </Card>
       </MotionScene>
     </Grid>
