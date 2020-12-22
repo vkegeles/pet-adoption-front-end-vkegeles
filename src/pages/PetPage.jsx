@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
-import { MotionScene, SharedElement, MotionScreen } from "react-motion-layout";
 import Gender from "../components/Gender/Gender";
 import { pink } from "@material-ui/core/colors";
 
@@ -27,8 +26,6 @@ const useStyles = makeStyles({
     backgroundPosition: "left top",
     flex: 1,
     height: "80vh",
-    // width: 900,
-    // height: 900,
   },
   sharedDivContent: {
     display: "flex",
@@ -56,52 +53,37 @@ export default function PetPage(props) {
   let pet = pets.find((pet) => pet.id === id);
   const composedStyle = { backgroundImage: `url("${pet.picture}")` };
   return (
-    <MotionScreen>
-      <MotionScene easing="cubic-bezier(0, 0, .58, 1)" name={`pet-${pet.id}`}>
-        <Card className={classes.card}>
-          <SharedElement.Div
-            animationKey="div"
-            className={classes.sharedDiv}
-            style={composedStyle}
-          />
-          <SharedElement.Div
-            animationKey="cardcontent"
-            className={classes.sharedDivContent}
-          >
-            <div className={classes.cardDetails}>
-              <CardContent>
-                <IconButton
-                  // color="primary"
-                  aria-label="favorite"
-                  component="span"
-                  className={classes.iconfavorite}
-                  onClick={favoriteOnClick}
-                >
-                  <FavoriteBorderOutlinedIcon fontSize="large" />
-                </IconButton>
-                <Typography
-                  component="h2"
-                  variant="h5"
-                  className={classes.cardname}
-                >
-                  {pet.name} <Gender gender={pet.gender} />
-                </Typography>
-                <Typography
-                  variant="subtitle1"
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  {pet.breed} {pet.type}
-                </Typography>
-                <Typography variant="subtitle1" paragraph>
-                  Pet status: {pet.adoptionStatus}
-                </Typography>
-                <Typography variant="subtitle1">Show more...</Typography>
-              </CardContent>
-            </div>
-          </SharedElement.Div>
-        </Card>
-      </MotionScene>
-    </MotionScreen>
+    <Card className={classes.card}>
+      <div className={classes.sharedDiv} style={composedStyle} />
+      <div className={classes.sharedDivContent}>
+        <div className={classes.cardDetails}>
+          <CardContent>
+            <IconButton
+              // color="primary"
+              aria-label="favorite"
+              component="span"
+              className={classes.iconfavorite}
+              onClick={favoriteOnClick}
+            >
+              <FavoriteBorderOutlinedIcon fontSize="large" />
+            </IconButton>
+            <Typography
+              component="h2"
+              variant="h5"
+              className={classes.cardname}
+            >
+              {pet.name} <Gender gender={pet.gender} />
+            </Typography>
+            <Typography variant="subtitle1" color="textSecondary" gutterBottom>
+              {pet.breed} {pet.type}
+            </Typography>
+            <Typography variant="subtitle1" paragraph>
+              Pet status: {pet.adoptionStatus}
+            </Typography>
+            <Typography variant="subtitle1">Show more...</Typography>
+          </CardContent>
+        </div>
+      </div>
+    </Card>
   );
 }

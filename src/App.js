@@ -1,7 +1,5 @@
 import React from "react";
 import { Copyright } from "./components/Copyright";
-import { MotionLayoutProvider } from "react-motion-layout";
-
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import SearchPage from "./pages/SearchPage";
 import PetPage from "./pages/PetPage";
@@ -114,25 +112,24 @@ function App() {
     { name: "Home page", path: "/" },
     { name: "Search pet", path: "/pets" },
     { name: "Add pet", path: "/admin/form" },
-    { name: "Dashboard", path: "/admin/dashboard" }]
+    { name: "Dashboard", path: "/admin/dashboard" },
+  ];
   return (
     <Theme>
       <CssBaseline />
       <div className="wrapper">
         <Router>
-          <MotionLayoutProvider>
-            <PetListContext.Provider value={pets}>
-              <div className={classes.root}>
-                <NavBar categories={categories} />
-                <Route exact path="/" component={LandingPage} />
-                <div className={classes.background}>
-                  <Route exact path="/pets" component={SearchPage} />
-                  <Route path="/pets/:id" component={PetPage} />
-                </div>
+          <PetListContext.Provider value={pets}>
+            <div className={classes.root}>
+              <NavBar categories={categories} />
+              <Route exact path="/" component={LandingPage} />
+              <div className={classes.background}>
+                <Route exact path="/pets" component={SearchPage} />
+                <Route path="/pets/:id" component={PetPage} />
               </div>
-            </PetListContext.Provider>
-            <Copyright />
-          </MotionLayoutProvider>
+            </div>
+          </PetListContext.Provider>
+          <Copyright />
         </Router>
       </div>
     </Theme>
