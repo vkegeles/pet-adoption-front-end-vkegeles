@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Copyright } from "./components/Copyright";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import SearchPage from "./pages/SearchPage";
@@ -9,6 +9,10 @@ import Theme from "./context/Theme";
 import { CssBaseline } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import NavBar from "./components/NavBar/NavBar";
+import { AuthContextProvider } from "./context/AuthContext";
+import "react-responsive-modal/styles.css";
+import { Modal } from "react-responsive-modal";
+import Login from "./components/Login";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,14 +36,14 @@ function App() {
       name: "Bella",
       type: "cat",
       gender: "female",
-      adoptionStatus: "foster",
+      status: "foster",
       picture:
         "https://static.scientificamerican.com/sciam/cache/file/92E141F8-36E4-4331-BB2EE42AC8674DD3_source.jpg",
       height: "30sm",
       weight: "6kg",
       color: "black",
       bio: "Cute cat want to find a new family",
-      nonAllergy: true,
+      hypoallergenic: true,
       diet: "only meat",
       breed: "American Shorthair",
     },
@@ -48,14 +52,14 @@ function App() {
       name: "Chloe",
       type: "cat",
       gender: "female",
-      adoptionStatus: "foster",
+      status: "foster",
       picture:
         "https://cdn.pixabay.com/photo/2014/11/30/14/11/cat-551554_960_720.jpg",
       height: "30sm",
       weight: "6kg",
       color: "black",
       bio: "Cute cat want to find a new family",
-      nonAllergy: true,
+      hypoallergenic: true,
       diet: "only meat",
       breed: "Domestic",
     },
@@ -64,14 +68,14 @@ function App() {
       name: "Leo",
       type: "cat",
       gender: "male",
-      adoptionStatus: "none",
+      status: "none",
       picture:
         "https://cdn.pixabay.com/photo/2017/11/09/21/41/cat-2934720_960_720.jpg",
       height: "30sm",
       weight: "6kg",
       color: "black",
       bio: "Cute cat want to find a new family",
-      nonAllergy: true,
+      hypoallergenic: true,
       diet: "only meat",
       breed: "British Shorthair",
     },
@@ -80,14 +84,14 @@ function App() {
       name: "Luna",
       type: "dog",
       gender: "female",
-      adoptionStatus: "foster",
+      status: "foster",
       picture:
         "https://i.pinimg.com/originals/71/f1/84/71f1843b56fa00a64c429a1980657dc5.jpg",
       height: "30sm",
       weight: "6kg",
       color: "black",
       bio: "Cute dog want to find a new family",
-      nonAllergy: true,
+      hypoallergenic: true,
       diet: "only meat",
       breed: "Domestic",
     },
@@ -96,14 +100,14 @@ function App() {
       name: "Charlie",
       type: "dog",
       gender: "male",
-      adoptionStatus: "none",
+      status: "none",
       picture:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT82mKzjSXIHY0w40uodifHxJUnbgkhcYWZlg&usqp=CAU",
       height: "30sm",
       weight: "6kg",
       color: "black",
       bio: "Cute dog want to find a new family",
-      nonAllergy: true,
+      hypoallergenic: true,
       diet: "only meat",
       breed: "Domestic",
     },
@@ -114,22 +118,37 @@ function App() {
     { name: "Add pet", path: "/admin/form" },
     { name: "Dashboard", path: "/admin/dashboard" },
   ];
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
   return (
     <Theme>
       <CssBaseline />
       <div className="wrapper">
         <Router>
-          <PetListContext.Provider value={pets}>
-            <div className={classes.root}>
-              <NavBar categories={categories} />
-              <Route exact path="/" component={LandingPage} />
-              <div className={classes.background}>
-                <Route exact path="/pets" component={SearchPage} />
-                <Route path="/pets/:id" component={PetPage} />
+          <AuthContextProvider>
+            <PetListContext.Provider value={pets}>
+              <div className={classes.root}>
+                <NavBar categories={categories} onOpenModal={handleOpenModal} />
+                <Route exact path="/" component={LandingPage} />
+                <div className={classes.background}>
+                  <Route exact path="/pets" component={SearchPage} />
+                  <Route path="/pets/:id" component={PetPage} />
+                </div>
               </div>
-            </div>
-          </PetListContext.Provider>
-          <Copyright />
+            </PetListContext.Provider>
+            <Modal open={modalOpen} onClose={handleCloseModal}>
+              <Login closeModal={handleCloseModal} />
+            </Modal>
+            <Copyright />
+          </AuthContextProvider>
         </Router>
       </div>
     </Theme>

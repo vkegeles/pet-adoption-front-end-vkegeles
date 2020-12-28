@@ -78,7 +78,7 @@ export default function PetPage(props) {
               {pet.breed} {pet.type}
             </Typography>
             <Typography variant="subtitle1" paragraph>
-              Pet status: {pet.adoptionStatus}
+              Pet status: {pet.status}
             </Typography>
             <Typography variant="subtitle1">Show more...</Typography>
           </CardContent>

@@ -77,7 +77,7 @@ export default function PetCard({ pet }) {
                   {pet.breed} {pet.type}
                 </Typography>
                 <Typography variant="subtitle1" paragraph>
-                  Pet status: {pet.adoptionStatus}
+                  Pet status: {pet.status}
                 </Typography>
                 <Typography variant="subtitle1">Show more...</Typography>
               </CardContent>
