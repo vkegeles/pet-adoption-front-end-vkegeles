@@ -1,6 +1,6 @@
 import { my_app } from "./constansts";
 import axios from "axios";
-
+import { fetchClient } from "./../apis/fetchClient";
 const baseURL = "http://localhost:5000";
 
 export function login(email, password) {
@@ -10,26 +10,16 @@ export function login(email, password) {
   //     authorization: "Bearer " + token,
   //   },
   // };
-  let config = {
-    // headers: {
-    //   contentType: "multipart/form-data",
-    // },
-  };
+
   return axios
-    .post(
-      `${baseURL}/login`,
-      {
-        email,
-        password,
-      },
-      config
-    )
+    .post(`${baseURL}/login`, {
+      email,
+      password,
+    })
     .then((response) => {
-      if (response.data.accessToken) {
-        localStorage.setItem(
-          "token",
-          JSON.stringify(response.data.accessToken)
-        );
+      if (response.data.token) {
+        console.log("token = ", response.data.token);
+        localStorage.setItem("token", response.data.token);
       }
       return response.data;
     });
@@ -42,11 +32,8 @@ export async function signup(email, password) {
       password,
     })
     .then((response) => {
-      if (response.data.accessToken) {
-        localStorage.setItem(
-          "token",
-          JSON.stringify(response.data.accessToken)
-        );
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
       }
 
       return response.data;
@@ -58,55 +45,33 @@ export const logout = () => {
   return Promise.resolve();
 };
 
-// export const getUser = () => {
-//   let currUser = JSON.parse(localStorage.getItem("pet_adoption_user"));
+export const getUser = () => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    //     // if no user in localStorage then the user must enter their credentials to proceed
+    return Promise.resolve(null);
+  }
+  return new Promise((resolve, reject) => {
+    fetchClient
+      .get(`/user/me`)
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+    //                 my_app
+    //                   .request(config)
+    //                   .then((response) => {
+    //                     resolve(response);
+    //                   })
+    //                   .catch((error) => {
+    //                     reject(error);
+    //                   });
+    //               });
+  });
+};
 
-//   if (!currUser) {
-//     // if no user in localStorage then the user must enter their credentials to proceed
-//     return Promise.resolve(null);
-//   }
-
-//   // get the expiry time of the current access token and measure whether it expired or not
-//   let currDate = new Date();
-//   let duration = currUser["expires_in"] * 1000;
-//   let diff = currDate.getTime() - currUser.lastRefresh;
-
-//   if (diff >= duration) {
-//     // access token expired need to refresh token
-//     let getUserFormData = new FormData();
-//     getUserFormData.append("grant_type", "refresh_token");
-//     getUserFormData.append("refresh_token", currUser.refresh_token);
-
-//     return axios
-//       .post(`${baseURL}/token/url`, getUserFormData, {
-//         headers: {
-//           Authorization: "Basic {secret_key}",
-//         },
-//       })
-//       .then((response) => {
-//         currUser.refresh_token = response.data.refresh_token;
-//         currUser.access_token = response.data.access_token;
-//         currUser.lastRefresh = new Date().getTime();
-
-//         localStorage.setItem("pet_adoption_user", JSON.stringify(currUser));
-//         my_app.defaults.headers.common["Authorization"] =
-//           "Bearer " + currUser.access_token;
-//         return my_app.get("/users/current/url").catch((error) => {
-//           logout();
-//           throw error;
-//         });
-//       })
-//       .catch((error) => {
-//         logout();
-//       });
-//   } else {
-//     // Do not need refresh
-//     my_app.defaults.headers.common["Authorization"] =
-//       "Bearer " + currUser.access_token;
-//     my_app.interceptors.response.use(
-//       (response) => {
-//         return response;
-//       },
 //       (error) => {
 //         if (error.response.status === 401) {
 //           // 401 is Unauthorized error

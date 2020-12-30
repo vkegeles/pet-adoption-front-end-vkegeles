@@ -1,5 +1,5 @@
-import React, { createContext, useState, useContext } from "react";
-import * as auth from "../helpers/auth";
+import React, { createContext, useState, useContext, useEffect } from "react";
+import * as auth from "../apis/auth";
 // import Loading from "../components/Loading";
 
 export const AuthContext = createContext();
@@ -10,6 +10,9 @@ export function useAuth() {
 
 const AuthContextProvider = (props) => {
   const [user, setUser] = useState(null);
+  useEffect(() => {
+    getUser();
+  }, []);
   // const [fetched, setFetched] = useState(false);
 
   const signUp = (username, password) => {
@@ -32,10 +35,13 @@ const AuthContextProvider = (props) => {
     await auth.logout();
   };
 
-  // const getUser = async () => {
-  //   const user = await auth.getUser();
-  //   setUser(user ? user.data : null);
-  // };
+  const getUser = () => {
+    auth.getUser().then((user) => {
+      console.log("user", user);
+      // return user;
+      setUser(user);
+    });
+  };
 
   // if (!fetched) {
   //   getUser().then(() => setFetched(true));
@@ -52,7 +58,7 @@ const AuthContextProvider = (props) => {
         signUp,
         login,
         logout,
-        // getUser,
+        getUser,
         setUser,
       }}
     >
