@@ -20,7 +20,7 @@ export default function SearchPage(props) {
   const classes = useStyles();
   const [value, setValue] = useState("");
   let location = useLocation();
-  React.useEffect(() => {
+  useEffect(() => {
     if (location.search) {
       const query = new URLSearchParams(location.search);
       setValue(query.get("search"));

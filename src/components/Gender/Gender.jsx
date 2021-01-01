@@ -18,7 +18,8 @@ const useStyles = makeStyles({
 
 export default function Gender(props) {
   const classes = useStyles();
-  if (props.gender === "female") {
+  const gender = props.gender ? props.gender.toLowerCase() : "";
+  if (gender === "female") {
     return <ReactLogoFemale className={classes.iconFemale} />;
   } else {
     return <ReactLogoMale className={classes.iconMale} />;

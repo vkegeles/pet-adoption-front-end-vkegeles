@@ -3,7 +3,7 @@ import { Copyright } from "./components/Copyright";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import SearchPage from "./pages/SearchPage";
 import PetPage from "./pages/PetPage";
-import { PetListContext } from "./context/PetListContext";
+import { ModalContext } from "./context/ModalContext";
 import LandingPage from "./pages/LandingPage";
 import Theme from "./context/Theme";
 import { CssBaseline } from "@material-ui/core";
@@ -12,7 +12,11 @@ import NavBar from "./components/NavBar/NavBar";
 import { AuthContextProvider } from "./context/AuthContext";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
-import Login from "./components/Login";
+import ModalContent from "./components/Modal/ModalContent";
+import HomePage from "./pages/HomePage";
+import PrivateRoute from "./components/PrivateRoute";
+import AddPetFormPage from "./pages/AddPetFormPage";
+import DashboardPage from "./pages/DashboardPage";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -127,6 +131,10 @@ function App() {
   const handleCloseModal = () => {
     setModalOpen(false);
   };
+  const modalfunctions = {
+    openModal: handleOpenModal,
+    closeModal: handleCloseModal,
+  };
 
   return (
     <Theme>
@@ -134,24 +142,27 @@ function App() {
       <div className="wrapper">
         <Router>
           <AuthContextProvider>
-            <PetListContext.Provider value={pets}>
+            <ModalContext.Provider value={modalfunctions}>
               <div className={classes.root}>
-                <NavBar categories={categories} onOpenModal={handleOpenModal} />
-                <Route exact path="/" component={LandingPage} />
+                <NavBar categories={categories} />
+                <PrivateRoute exact path="/" component={HomePage} altcomponent={LandingPage} />
+                <PrivateRoute path="/admin/form" needAdminRights={true} component={AddPetFormPage} />
+                <PrivateRoute path="/admin/dashboard" needAdminRights={true} component={DashboardPage} />
                 <div className={classes.background}>
                   <Route exact path="/pets" component={SearchPage} />
                   <Route path="/pets/:id" component={PetPage} />
                 </div>
               </div>
-            </PetListContext.Provider>
-            <Modal open={modalOpen} onClose={handleCloseModal}>
-              <Login closeModal={handleCloseModal} />
-            </Modal>
-            <Copyright />
+              <Modal open={modalOpen} onClose={handleCloseModal}>
+                <ModalContent />
+              </Modal>
+              <Copyright />
+            </ModalContext.Provider>
+
           </AuthContextProvider>
         </Router>
       </div>
-    </Theme>
+    </Theme >
   );
 }
 

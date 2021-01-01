@@ -25,14 +25,18 @@ export function login(email, password) {
     });
 }
 
-export async function signup(email, password) {
+export async function signup(email, password, firstname, lastname, phonenumber) {
   return axios
     .post(`${baseURL}/signup`, {
       email,
       password,
+      firstname,
+      lastname,
+      phonenumber
     })
     .then((response) => {
       if (response.data.token) {
+        console.log("token = ", response.data.token);
         localStorage.setItem("token", response.data.token);
       }
 

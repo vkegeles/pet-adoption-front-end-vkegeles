@@ -18,9 +18,18 @@ import { pink } from "@material-ui/core/colors";
 const useStyles = makeStyles({
   card: {
     display: "flex",
+    minHeight: "35vh",
   },
   cardDetails: {
     flex: 1,
+    minHeight: "100%",
+  },
+  cardContent: {
+    minHeight: "100%",
+    display: "flex",
+    alignItems: "flex-start",
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
   sharedDiv: {
     backgroundSize: "cover",
@@ -33,6 +42,7 @@ const useStyles = makeStyles({
     alignItems: "flex-start",
     justifyContent: "space-between",
     flex: 1,
+    minHeight: "100%",
   },
   cardname: {
     display: "flex",
@@ -45,9 +55,9 @@ const useStyles = makeStyles({
 export default function PetCard({ pet }) {
   const classes = useStyles();
   const history = useHistory();
-  const callback = useCallback(() => history.push(`/pets/${pet.id}`), [
+  const callback = useCallback(() => history.push(`/pets/${pet._id}`), [
     history,
-    pet.id,
+    pet._id,
   ]);
   const favoriteOnClick = (e) => e.stopPropagation();
   const composedStyle = { backgroundImage: `url("${pet.picture}")` };
@@ -59,30 +69,32 @@ export default function PetCard({ pet }) {
           <div className={classes.sharedDiv} style={composedStyle} />
         </Hidden>
         <div className={classes.sharedDivContent}>
-          <div className={classes.cardDetails}>
-            <CardActionArea component="div">
-              <CardContent>
-                <Typography
-                  component="h2"
-                  variant="h5"
-                  className={classes.cardname}
-                >
-                  {pet.name} <Gender gender={pet.gender} />{" "}
-                </Typography>
-                <Typography
-                  variant="subtitle1"
-                  // color="textSecondary"
-                  gutterBottom
-                >
-                  {pet.breed} {pet.type}
-                </Typography>
-                <Typography variant="subtitle1" paragraph>
-                  Pet status: {pet.status}
-                </Typography>
-                <Typography variant="subtitle1">Show more...</Typography>
-              </CardContent>
-            </CardActionArea>
-          </div>
+          {/* <div className={classes.cardDetails}> */}
+          <CardActionArea component="div" className={classes.cardDetails}>
+            <CardContent className={classes.cardContent}>
+              <Typography
+                component="h2"
+                variant="h5"
+                className={classes.cardname}
+              >
+                {pet.name} <Gender gender={pet.gender} />{" "}
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                // color="textSecondary"
+                gutterBottom
+              >
+                {pet.breed} {pet.type}
+              </Typography>
+              <Typography variant="subtitle1" paragraph>
+                Pet status: {pet.status}
+              </Typography>
+              <Typography variant="subtitle1" color="textSecondary">
+                Show more...
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          {/* </div> */}
           <IconButton
             aria-label="favorite"
             component="span"

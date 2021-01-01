@@ -1,5 +1,4 @@
-import React from "react";
-import { usePetList } from "../context/PetListContext";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Typography,
@@ -11,6 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import Gender from "../components/Gender/Gender";
 import { pink } from "@material-ui/core/colors";
+import { getPetByID } from "../apis/api";
 
 const useStyles = makeStyles({
   card: {
@@ -45,12 +45,15 @@ const useStyles = makeStyles({
 });
 
 export default function PetPage(props) {
-  const pets = usePetList();
   const classes = useStyles();
+  const [pet, setPet] = useState({ name: "Name" });
+  let id = props.match.params.id;
+
+  useEffect(() => {
+    getPetByID(id, setPet);
+  }, []);
   const favoriteOnClick = (e) => e.stopPropagation();
 
-  let id = parseInt(props.match.params.id);
-  let pet = pets.find((pet) => pet.id === id);
   const composedStyle = { backgroundImage: `url("${pet.picture}")` };
   return (
     <Card className={classes.card}>

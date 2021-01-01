@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import DrawerMenu from "./DrawerMenu";
 import { useAuth } from "./../../context/AuthContext";
+import { useModalContext } from "../../context/ModalContext";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -30,6 +31,7 @@ export default function NavBar(props) {
   const { user, logout } = useAuth();
   const history = useHistory();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const { openModal, closeModal } = useModalContext();
 
   const categories = props.categories;
   function handleDrawerToggle() {
@@ -41,7 +43,8 @@ export default function NavBar(props) {
     history.push("/");
   };
 
-  const welcomeName = "Welcome" + (user ? ", " + user.email : "");
+  const welcomeName =
+    "Welcome" + (user ? ", " + user.firstname + " " + user.lastname : "");
   return (
     <>
       <AppBar position="static" className={classes.appBar}>
@@ -64,7 +67,7 @@ export default function NavBar(props) {
             </Button>
           )}
           {!user && (
-            <Button color="inherit" onClick={props.onOpenModal}>
+            <Button color="inherit" onClick={openModal}>
               Login
             </Button>
           )}

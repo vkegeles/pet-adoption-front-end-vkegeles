@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { Paper, Grid, Typography, Button } from "@material-ui/core";
+import { Paper, Grid, Typography } from "@material-ui/core";
 import SearchBar from "material-ui-search-bar";
-import { useModalContext } from "../context/ModalContext";
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -38,11 +37,6 @@ const useStyles = makeStyles((theme) => ({
       paddingTop: 0,
     },
   },
-  buttonMainPage: {
-    fontSize: "1.5rem",
-    borderRadius: "1000px",
-    padding: "5px 40px",
-  },
   secondPaper: {
     display: "flex",
     margin: "0 20px",
@@ -53,10 +47,9 @@ const useStyles = makeStyles((theme) => ({
     // color: "white",
   },
 }));
-export default function LandingPage(props) {
+export default function HomePage(props) {
   const classes = useStyles();
   const history = useHistory();
-  const { openModal, closeModal } = useModalContext();
   const [searchValue, setSearchValue] = useState("");
 
   return (
@@ -72,23 +65,10 @@ export default function LandingPage(props) {
                 color="inherit"
                 gutterBottom
               >
-                Don't be indifferent
+                Welcome back!
               </Typography>
               <Typography component="h2" variant="h5" color="inherit" paragraph>
-                Everyone can pass by, but not everyone can stop and help
-              </Typography>
-
-              <Typography variant="button" color="inherit">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.buttonMainPage}
-                  onClick={() => {
-                    openModal();
-                  }}
-                >
-                  Take Care
-                </Button>
+                Search to find new best friend
               </Typography>
             </div>
           </Grid>
@@ -96,7 +76,7 @@ export default function LandingPage(props) {
       </Paper>
       <Paper className={classes.secondPaper}>
         <SearchBar
-          placeholder="Search for furry friend"
+          placeholder="Search for new friend"
           value={searchValue}
           onChange={(newValue) => setSearchValue(newValue)}
           onRequestSearch={() =>

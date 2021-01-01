@@ -15,17 +15,14 @@ const AuthContextProvider = (props) => {
   }, []);
   // const [fetched, setFetched] = useState(false);
 
-  const signUp = (username, password) => {
-    return auth.signup(username, password).then((data) => {
-      setUser(data.data);
+  const signup = (username, password, firstname, lastname, phonenumber) => {
+    return auth.signup(username, password, firstname, lastname, phonenumber).then((data) => {
+      setUser(data.user);
     });
   };
 
   const login = (email, password) => {
     return auth.login(email, password).then((data) => {
-      console.log(data);
-      console.log(data.user);
-
       setUser(data.user);
     });
   };
@@ -55,7 +52,7 @@ const AuthContextProvider = (props) => {
     <AuthContext.Provider
       value={{
         user,
-        signUp,
+        signup,
         login,
         logout,
         getUser,
