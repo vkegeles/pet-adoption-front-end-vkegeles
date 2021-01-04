@@ -1,40 +1,40 @@
 import axios from "axios";
-import { URL } from "./constansts";
+import { baseURL } from "./constansts";
 
 /**
  *
  * parse error response
  */
-function parseError(messages) {
-  // error
-  if (messages) {
-    if (messages instanceof Array) {
-      return Promise.reject({ messages: messages });
-    } else {
-      return Promise.reject({ messages: [messages] });
-    }
-  } else {
-    return Promise.reject({ messages: ["エラーが発生しました"] });
-  }
-}
+// function parseError(messages) {
+//   // error
+//   if (messages) {
+//     if (messages instanceof Array) {
+//       return Promise.reject({ messages: messages });
+//     } else {
+//       return Promise.reject({ messages: [messages] });
+//     }
+//   } else {
+//     return Promise.reject({ messages: ["エラーが発生しました"] });
+//   }
+// }
 
 /**
  * parse response
  */
-function parseBody(response) {
-  //  if (response.status === 200 && response.data.status.code === 200) { // - if use custom status code
-  if (response.status === 200) {
-    return response.data.result;
-  } else {
-    return this.parseError(response.data.messages);
-  }
-}
+// function parseBody(response) {
+//   //  if (response.status === 200 && response.data.status.code === 200) { // - if use custom status code
+//   if (response.status === 200) {
+//     return response.data.result;
+//   } else {
+//     return this.parseError(response.data.messages);
+//   }
+// }
 
 /**
  * axios instance
  */
 let instance = axios.create({
-  baseURL: URL,
+  baseURL,
   paramsSerializer: function (params) {
     return JSON.stringify(params);
   },
@@ -75,7 +75,7 @@ instance.interceptors.request.use(
 
 // const fetchClient = (method) => {
 //   const defaultOptions = {
-//     baseURL: URL,
+//     baseURL,
 //     headers: {
 //       "Content-Type": "application/json",
 //     },

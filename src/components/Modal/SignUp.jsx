@@ -34,7 +34,7 @@ export default function SignUp(props) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState("");
   const { signup } = useAuth();
-  const { openModal, closeModal } = useModalContext();
+  const { closeModal } = useModalContext();
 
   const classes = useStyles();
 

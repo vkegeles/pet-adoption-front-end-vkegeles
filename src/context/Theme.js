@@ -1,8 +1,7 @@
 import React from "react";
 import { createMuiTheme } from "@material-ui/core/styles";
-// import { ThemeProvider } from "@material-ui/styles";
 import { ThemeProvider } from "@material-ui/core";
-import { amber, blue, pink, yellow } from "@material-ui/core/colors";
+import { amber, pink } from "@material-ui/core/colors";
 
 const theme = createMuiTheme({
   palette: {
@@ -12,9 +11,6 @@ const theme = createMuiTheme({
       default: "#f7e0e4",
       paper: "#ffffff",
     },
-    // text: {
-    //   primary: pink[500],
-    // }
   },
 });
 

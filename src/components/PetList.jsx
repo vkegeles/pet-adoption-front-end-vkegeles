@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import PetCard from "./PetCard";
-import { usePetList } from "../context/ModalContext";
 import { getAllPets } from "../apis/api";
-import { fetchClient } from "./../apis/fetchClient";
 
 export default function PetList(props) {
   const [pets, setPets] = useState([]);

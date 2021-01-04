@@ -31,7 +31,7 @@ export default function Login(props) {
   const [error, setError] = useState("");
 
   const { login } = useAuth();
-  const { openModal, closeModal } = useModalContext();
+  const { closeModal } = useModalContext();
 
   const classes = useStyles();
 

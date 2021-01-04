@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
-import {
-  Grid,
-  Typography,
-  Card,
-  CardContent,
-  IconButton,
-} from "@material-ui/core";
+import { Typography, Card, CardContent, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import Gender from "../components/Gender/Gender";
 import { pink } from "@material-ui/core/colors";
 import { getPetByID } from "../apis/api";
+import PetDetailAttr from "./../components/PetDetailAttr";
 
 const useStyles = makeStyles({
   card: {
@@ -25,13 +20,15 @@ const useStyles = makeStyles({
     backgroundRepeat: "no-repeat",
     backgroundPosition: "left top",
     flex: 1,
-    height: "80vh",
+    minHeight: "50vh",
+    maxHeight: "80vh",
   },
   sharedDivContent: {
     display: "flex",
     alignItems: "flex-start",
     justifyContent: "space-between",
     flex: 1,
+    margin: "20px",
   },
   cardname: {
     display: "flex",
@@ -46,15 +43,33 @@ const useStyles = makeStyles({
 
 export default function PetPage(props) {
   const classes = useStyles();
-  const [pet, setPet] = useState({ name: "Name" });
+  const [pet, setPet] = useState({ name: "Name", picture: "/paws.png" });
+  const [details, setDetails] = useState([]);
+
   let id = props.match.params.id;
 
   useEffect(() => {
     getPetByID(id, setPet);
-  }, []);
+  }, [id]);
+
+  useEffect(() => {
+    setDetails([
+      { caption: "Breed", value: pet.breed },
+      { caption: "Adoption status", value: pet.status },
+      { caption: "Height", value: pet.height, add: "sm" },
+      { caption: "Weight", value: pet.weight, add: "kg" },
+      { caption: "Color", value: pet.color },
+      { caption: "Biography", value: pet.bio },
+      { caption: "Dietary restrictions", value: pet.dietaryrestrictions },
+    ]);
+  }, [pet]);
   const favoriteOnClick = (e) => e.stopPropagation();
 
-  const composedStyle = { backgroundImage: `url("${pet.picture}")` };
+  const composedStyle = pet.picture
+    ? {
+        backgroundImage: `url("${pet.picture}")`,
+      }
+    : { backgroundImage: `url(/paws.png)` };
   return (
     <Card className={classes.card}>
       <div className={classes.sharedDiv} style={composedStyle} />
@@ -77,13 +92,13 @@ export default function PetPage(props) {
             >
               {pet.name} <Gender gender={pet.gender} />
             </Typography>
-            <Typography variant="subtitle1" color="textSecondary" gutterBottom>
-              {pet.breed} {pet.type}
+            <Typography variant="h5" paragraph display="block">
+              {pet.type}
             </Typography>
-            <Typography variant="subtitle1" paragraph>
-              Pet status: {pet.status}
-            </Typography>
-            <Typography variant="subtitle1">Show more...</Typography>
+            {details &&
+              details.map((detail) => (
+                <PetDetailAttr key={detail.caption} detail={detail} />
+              ))}
           </CardContent>
         </div>
       </div>

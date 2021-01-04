@@ -18,7 +18,7 @@ import { pink } from "@material-ui/core/colors";
 const useStyles = makeStyles({
   card: {
     display: "flex",
-    minHeight: "35vh",
+    minHeight: "30vh",
   },
   cardDetails: {
     flex: 1,
@@ -60,8 +60,11 @@ export default function PetCard({ pet }) {
     pet._id,
   ]);
   const favoriteOnClick = (e) => e.stopPropagation();
-  const composedStyle = { backgroundImage: `url("${pet.picture}")` };
-
+  const composedStyle = pet.picture
+    ? {
+        backgroundImage: `url("${pet.picture}")`,
+      }
+    : { backgroundImage: `url(/paws.png)` };
   return (
     <Grid item xs={12} md={6}>
       <Card className={classes.card} onClick={callback}>
@@ -69,32 +72,27 @@ export default function PetCard({ pet }) {
           <div className={classes.sharedDiv} style={composedStyle} />
         </Hidden>
         <div className={classes.sharedDivContent}>
-          {/* <div className={classes.cardDetails}> */}
           <CardActionArea component="div" className={classes.cardDetails}>
             <CardContent className={classes.cardContent}>
               <Typography
                 component="h2"
                 variant="h5"
                 className={classes.cardname}
+                gutterBottom
               >
                 {pet.name} <Gender gender={pet.gender} />{" "}
               </Typography>
-              <Typography
-                variant="subtitle1"
-                // color="textSecondary"
-                gutterBottom
-              >
+              <Typography variant="h6" gutterBottom>
                 {pet.breed} {pet.type}
               </Typography>
-              <Typography variant="subtitle1" paragraph>
+              <Typography variant="h6" gutterBottom>
                 Pet status: {pet.status}
               </Typography>
-              <Typography variant="subtitle1" color="textSecondary">
+              <Typography variant="button" color="primary" padding={20}>
                 Show more...
               </Typography>
             </CardContent>
           </CardActionArea>
-          {/* </div> */}
           <IconButton
             aria-label="favorite"
             component="span"

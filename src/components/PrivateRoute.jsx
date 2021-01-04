@@ -12,7 +12,7 @@ export default function PrivateRoute({
   const { user } = useAuth();
   const getContent = (props) => {
     let content;
-    if (user && (!needAdminRights || user.status == ADMIN_STATUS)) {
+    if (user && (!needAdminRights || user.status === ADMIN_STATUS)) {
       content = <Component {...props} />;
     } else if (AltComponent) {
       content = <AltComponent {...props} />;

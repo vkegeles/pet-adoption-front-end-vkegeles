@@ -50,13 +50,12 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "center",
     backgroundColor: "rgb(214,123,138)",
-    // color: "white",
   },
 }));
 export default function LandingPage(props) {
   const classes = useStyles();
   const history = useHistory();
-  const { openModal, closeModal } = useModalContext();
+  const { openModal } = useModalContext();
   const [searchValue, setSearchValue] = useState("");
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -31,7 +31,7 @@ export default function NavBar(props) {
   const { user, logout } = useAuth();
   const history = useHistory();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const { openModal, closeModal } = useModalContext();
+  const { openModal } = useModalContext();
 
   const categories = props.categories;
   function handleDrawerToggle() {

@@ -1,7 +1,6 @@
-import { my_app } from "./constansts";
+import { baseURL } from "./constansts";
 import axios from "axios";
 import { fetchClient } from "./../apis/fetchClient";
-const baseURL = "http://localhost:5000";
 
 export function login(email, password) {
   // const token = JSON.parse(localStorage.getItem("token"));
@@ -25,14 +24,20 @@ export function login(email, password) {
     });
 }
 
-export async function signup(email, password, firstname, lastname, phonenumber) {
+export async function signup(
+  email,
+  password,
+  firstname,
+  lastname,
+  phonenumber
+) {
   return axios
     .post(`${baseURL}/signup`, {
       email,
       password,
       firstname,
       lastname,
-      phonenumber
+      phonenumber,
     })
     .then((response) => {
       if (response.data.token) {
