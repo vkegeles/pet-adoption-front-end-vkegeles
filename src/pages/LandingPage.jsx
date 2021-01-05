@@ -59,7 +59,7 @@ export default function LandingPage(props) {
   const [searchValue, setSearchValue] = useState("");
 
   return (
-    <div className={classes.root}>
+    <div>
       <Paper className={classes.main}>
         <div className={classes.overlay} />
         <Grid container>

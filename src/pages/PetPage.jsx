@@ -4,8 +4,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import Gender from "../components/Gender/Gender";
 import { pink } from "@material-ui/core/colors";
-import { getPetByID } from "../apis/api";
+import * as API from "../apis/api";
 import PetDetailAttr from "./../components/PetDetailAttr";
+import PetButtonsComponent from "./../components/PetButtonsComponent";
+import { useModalContext } from "../context/ModalContext";
+import { useAuth } from "../context/AuthContext";
 
 const useStyles = makeStyles({
   card: {
@@ -45,11 +48,13 @@ export default function PetPage(props) {
   const classes = useStyles();
   const [pet, setPet] = useState({ name: "Name", picture: "/paws.png" });
   const [details, setDetails] = useState([]);
+  const { openModal } = useModalContext();
+  const { user } = useAuth();
 
   let id = props.match.params.id;
 
   useEffect(() => {
-    getPetByID(id, setPet);
+    API.getPetByID(id, setPet);
   }, [id]);
 
   useEffect(() => {
@@ -63,6 +68,20 @@ export default function PetPage(props) {
       { caption: "Dietary restrictions", value: pet.dietaryrestrictions },
     ]);
   }, [pet]);
+
+  const handleReturn = () => {
+    API.returnPet(pet._id, setPet);
+  };
+  const handleFoster = () => {
+    if (user) {
+      API.fosterPet(pet._id, setPet);
+    } else openModal();
+  };
+  const handleAdopt = () => {
+    if (user) {
+      API.adoptPet(pet._id, setPet);
+    } else openModal();
+  };
   const favoriteOnClick = (e) => e.stopPropagation();
 
   const composedStyle = pet.picture
@@ -99,6 +118,13 @@ export default function PetPage(props) {
               details.map((detail) => (
                 <PetDetailAttr key={detail.caption} detail={detail} />
               ))}
+            <PetButtonsComponent
+              status={pet.status}
+              owner={pet.owner}
+              onReturn={handleReturn}
+              onFoster={handleFoster}
+              onAdopt={handleAdopt}
+            />
           </CardContent>
         </div>
       </div>

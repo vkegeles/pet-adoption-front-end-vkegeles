@@ -14,3 +14,25 @@ export async function addNewPet(pet, cb) {
     cb(response.data);
   });
 }
+export async function fosterPet(id, cb) {
+  fetchClient.post(`/pet/${id}/adopt`, { type: "foster" }).then((response) => {
+    cb(response.data);
+  });
+}
+export async function adoptPet(id, cb) {
+  fetchClient.post(`/pet/${id}/adopt`, { type: "adopt" }).then((response) => {
+    cb(response.data);
+  });
+}
+
+export async function returnPet(id, cb) {
+  fetchClient.post(`/pet/${id}/return`).then((response) => {
+    cb(response.data);
+  });
+}
+
+export async function getAllUsers(cb) {
+  fetchClient.get(`/user`).then((response) => {
+    cb(response.data);
+  });
+}

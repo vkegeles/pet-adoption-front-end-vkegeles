@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import PetCard from "./PetCard";
-import { getAllPets } from "../apis/api";
+import * as API from "../apis/api";
 
 export default function PetList(props) {
   const [pets, setPets] = useState([]);
 
   useEffect(() => {
-    getAllPets(setPets);
+    API.getAllPets(setPets);
   }, []);
 
   return (

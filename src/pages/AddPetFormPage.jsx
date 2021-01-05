@@ -21,7 +21,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 
 import { CLOUD_NAME } from "../apis/constansts";
-import { addNewPet } from "../apis/api";
+import * as API from "../apis/api";
 
 const useStyles = makeStyles((theme) => ({
   image: {
@@ -41,7 +41,7 @@ export default function AddPetFormPage(props) {
       result = { ...values, picture: imageUrl };
     }
 
-    addNewPet(result, (res) => {
+    API.addNewPet(result, (res) => {
       window.alert(res);
     });
     // window.alert(JSON.stringify(result, 0, 2));
