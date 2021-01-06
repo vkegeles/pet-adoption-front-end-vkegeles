@@ -35,7 +35,7 @@ export default function SearchPage(props) {
         onChange={(newValue) => setValue(newValue)}
         // onRequestSearch={() => doSomethingWith(value)}
       />
-      <PetList getPetMethod={API.getAllPets} />
+      <PetList getPetMethod={API.getAllPets} search={value} />
     </>
   );
 }

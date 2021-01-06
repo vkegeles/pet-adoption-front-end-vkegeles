@@ -53,7 +53,7 @@ export default function UserTable(props) {
   return (
     <>
       <TableContainer>
-        <Table aria-label="collapsible table">
+        <Table aria-label="collapsible user table">
           <TableHead>
             <TableRow>
               <TableCell />

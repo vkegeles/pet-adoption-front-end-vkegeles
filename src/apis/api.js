@@ -1,6 +1,7 @@
 import { fetchClient } from "./fetchClient";
 
-export async function getAllPets(cb) {
+export async function getAllPets(cb, search = null) {
+  console.log("search", search);
   fetchClient.get(`/pet`).then((response) => {
     cb(response.data);
   });

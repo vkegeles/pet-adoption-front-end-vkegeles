@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import PetTable from "./PetTable";
+import * as API from "../../apis/api";
 
 const useStyles = makeStyles({
   root: {
@@ -52,7 +53,7 @@ export default function UserRow({ user }) {
               <Typography variant="h6" gutterBottom component="div">
                 Pet in own
               </Typography>
-              {/* <PetTable row={row} /> */}
+              <PetTable getPetMethod={API.getUserOwnedPets} id={user._id} />
             </Box>
           </Collapse>
         </TableCell>

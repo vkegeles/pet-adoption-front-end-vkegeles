@@ -19,6 +19,8 @@ export default function PetList(props) {
     API.getCurrentUserFavoritePets(setFavorites);
     if (props.id) {
       props.getPetMethod(props.id, setPets);
+    } else if (props.search) {
+      props.getPetMethod(setPets, props.search);
     } else {
       props.getPetMethod(setPets);
     }

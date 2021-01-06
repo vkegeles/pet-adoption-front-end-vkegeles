@@ -76,6 +76,7 @@ export default function AddPetFormPage(props) {
     if (imageUrl) {
       result = { ...values, picture: imageUrl };
     }
+    console.log(result);
     if (petID) {
       API.updatePet(petID, result, (res) => {
         console.log(res);
@@ -115,10 +116,10 @@ export default function AddPetFormPage(props) {
   };
 
   const handleImageUpload = () => {
+    //ref is unsupported by libraries, waiting for fix
     const { files } = document.querySelector('input[type="file"]');
     const formData = new FormData();
     formData.append("file", files[0]);
-    // replace this with your upload preset name
     formData.append("upload_preset", "hjlrywhe");
     const options = {
       method: "POST",
