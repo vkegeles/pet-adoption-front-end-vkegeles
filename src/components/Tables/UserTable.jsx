@@ -7,7 +7,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { TablePagination } from "@material-ui/core";
 import UserRow from "./UserRow";
-import * as API from "../apis/api";
+import * as API from "../../apis/api";
 
 function createData(name, calories, fat, carbs, protein, price) {
   return {

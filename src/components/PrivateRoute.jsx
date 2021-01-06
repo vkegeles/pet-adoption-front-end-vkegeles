@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Container } from "@material-ui/core";
 import Loading from "./Loading";
 import { ADMIN_STATUS } from "./../apis/constansts";
 

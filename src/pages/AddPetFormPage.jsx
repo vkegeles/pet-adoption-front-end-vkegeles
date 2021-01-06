@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Field } from "react-final-form";
 import {
   TextField,
@@ -17,7 +17,6 @@ import {
   MenuItem,
   FormControl,
   FormControlLabel,
-  Container,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -105,6 +104,12 @@ export default function AddPetFormPage(props) {
     }
     if (values.picture && !imageUrl) {
       errors.picture = "Required upload image before submit";
+    }
+    if (values.height && values.height < 0) {
+      errors.height = "Required positive number";
+    }
+    if (values.weight && values.weight < 0) {
+      errors.weight = "Required positive number";
     }
     return errors;
   };
@@ -342,7 +347,7 @@ export default function AddPetFormPage(props) {
                     variant="contained"
                     color="primary"
                     type="submit"
-                    disabled={submitting}
+                    disabled={submitting || pristine}
                   >
                     Submit
                   </Button>

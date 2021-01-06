@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import SearchBar from "material-ui-search-bar";
-import PetList from "../components/PetList";
-import { Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Paper } from "@material-ui/core";
 import { useLocation } from "react-router-dom";
 import * as API from "../apis/api";
+import PetList from "./../components/PetComponents/PetList";
 
 const useStyles = makeStyles((theme) => ({
   search: {

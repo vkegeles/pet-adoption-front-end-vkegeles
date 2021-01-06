@@ -1,21 +1,14 @@
 import React, { useCallback } from "react";
 import { useHistory } from "react-router-dom";
-
-import {
-  Grid,
-  Typography,
-  CardActionArea,
-  Card,
-  CardContent,
-  Hidden,
-} from "@material-ui/core";
+import { CardActionArea, Card, CardContent, Hidden } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import Gender from "./Gender/Gender";
+import Gender from "../Gender/Gender";
 import { pink } from "@material-ui/core/colors";
-import * as API from "../apis/api";
-import Like from "./Like";
-import { useAuth } from "../context/AuthContext";
+import Like from "../Like";
+import { useAuth } from "../../context/AuthContext";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles({
   card: {

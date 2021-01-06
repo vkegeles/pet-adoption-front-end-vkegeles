@@ -1,9 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import { Container, Typography } from "@material-ui/core";
-import UserTable from "./../components/UserTable";
-import PetTable from "./../components/PetTable";
+import { Typography } from "@material-ui/core";
+import UserTable from "./../components/Tables/UserTable";
+import PetTable from "./../components/Tables/PetTable";
 
 const useStyles = makeStyles({
   main: {

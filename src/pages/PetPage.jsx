@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from "react";
-import {
-  Typography,
-  Card,
-  CardContent,
-  IconButton,
-  Container,
-} from "@material-ui/core";
+import { Typography, Card, CardContent } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import Gender from "../components/Gender/Gender";
 import { pink } from "@material-ui/core/colors";
 import * as API from "../apis/api";
-import PetDetailAttr from "./../components/PetDetailAttr";
-import PetButtonsComponent from "./../components/PetButtonsComponent";
+import PetDetailAttr from "../components/PetComponents/PetDetailAttr";
+import PetButtonsComponent from "../components/PetComponents/PetButtonsComponent";
 import { useModalContext } from "../context/ModalContext";
 import { useAuth } from "../context/AuthContext";
-import Like from "./../components/Like";
+import Like from "../components/Like";
 
 const useStyles = makeStyles({
   card: {
@@ -115,16 +108,6 @@ export default function PetPage(props) {
         <div className={classes.cardDetails}>
           <CardContent>
             {user && <Like onClick={favoriteOnClick} isFavorite={isFavorite} />}
-
-            {/* <IconButton
-              // color="primary"
-              aria-label="favorite"
-              component="span"
-              className={classes.iconfavorite}
-              onClick={favoriteOnClick}
-            >
-              <FavoriteBorderOutlinedIcon fontSize="large" />
-            </IconButton> */}
             <Typography
               component="h2"
               variant="h5"
