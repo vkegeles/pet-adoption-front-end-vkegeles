@@ -44,12 +44,7 @@ let instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
-    console.log(token);
     config.headers.Authorization = token ? `Bearer ${token}` : "";
-    // const apiToken = sessionStorage.getItem('token')
-    // config.headers = { 'Custom-Header-IF-Exist': apiToken }
-    console.log(config);
-
     return config;
   },
   (error) => {

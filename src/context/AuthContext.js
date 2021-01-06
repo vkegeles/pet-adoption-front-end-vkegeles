@@ -10,15 +10,19 @@ export function useAuth() {
 
 const AuthContextProvider = (props) => {
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     getUser();
   }, []);
   // const [fetched, setFetched] = useState(false);
 
   const signup = (username, password, firstname, lastname, phonenumber) => {
-    return auth.signup(username, password, firstname, lastname, phonenumber).then((data) => {
-      setUser(data.user);
-    });
+    return auth
+      .signup(username, password, firstname, lastname, phonenumber)
+      .then((data) => {
+        setUser(data.user);
+      });
   };
 
   const login = (email, password) => {
@@ -33,10 +37,10 @@ const AuthContextProvider = (props) => {
   };
 
   const getUser = () => {
-    auth.getUser().then((user) => {
-      console.log("user", user);
-      // return user;
-      setUser(user);
+    auth.getUser().then((newUser) => {
+      console.log("user", newUser);
+      setUser(newUser);
+      setIsLoading(false);
     });
   };
 
@@ -52,6 +56,7 @@ const AuthContextProvider = (props) => {
     <AuthContext.Provider
       value={{
         user,
+        isLoading,
         signup,
         login,
         logout,

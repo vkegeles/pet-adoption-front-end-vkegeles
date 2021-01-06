@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Card, CardContent, IconButton } from "@material-ui/core";
+import {
+  Typography,
+  Card,
+  CardContent,
+  IconButton,
+  Container,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import Gender from "../components/Gender/Gender";
@@ -9,19 +15,19 @@ import PetDetailAttr from "./../components/PetDetailAttr";
 import PetButtonsComponent from "./../components/PetButtonsComponent";
 import { useModalContext } from "../context/ModalContext";
 import { useAuth } from "../context/AuthContext";
+import Like from "./../components/Like";
 
 const useStyles = makeStyles({
   card: {
     display: "flex",
-    margin: "0 20px",
   },
   cardDetails: {
     flex: 1,
   },
   sharedDiv: {
-    backgroundSize: "contain",
+    backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
-    backgroundPosition: "left top",
+    backgroundPosition: "center",
     flex: 1,
     minHeight: "50vh",
     maxHeight: "80vh",
@@ -39,15 +45,13 @@ const useStyles = makeStyles({
     fontWeight: 700,
     color: pink[500],
   },
-  iconfavorite: {
-    float: "right",
-  },
 });
 
 export default function PetPage(props) {
   const classes = useStyles();
   const [pet, setPet] = useState({ name: "Name", picture: "/paws.png" });
   const [details, setDetails] = useState([]);
+  const [isFavorite, setIsFavorite] = useState(false);
   const { openModal } = useModalContext();
   const { user } = useAuth();
 
@@ -55,6 +59,7 @@ export default function PetPage(props) {
 
   useEffect(() => {
     API.getPetByID(id, setPet);
+    API.getPetIsFavorite(id, setIsFavorite);
   }, [id]);
 
   useEffect(() => {
@@ -82,7 +87,21 @@ export default function PetPage(props) {
       API.adoptPet(pet._id, setPet);
     } else openModal();
   };
-  const favoriteOnClick = (e) => e.stopPropagation();
+
+  const favoriteOnClick = (e) => {
+    e.stopPropagation();
+    if (isFavorite) {
+      setIsFavorite(false);
+      API.removePetFromFavorites(id, (res) => {
+        console.log("removed from db", res);
+      });
+    } else {
+      setIsFavorite(true);
+      API.addPetToFavorites(id, (res) => {
+        console.log("added to db", res);
+      });
+    }
+  };
 
   const composedStyle = pet.picture
     ? {
@@ -95,7 +114,9 @@ export default function PetPage(props) {
       <div className={classes.sharedDivContent}>
         <div className={classes.cardDetails}>
           <CardContent>
-            <IconButton
+            {user && <Like onClick={favoriteOnClick} isFavorite={isFavorite} />}
+
+            {/* <IconButton
               // color="primary"
               aria-label="favorite"
               component="span"
@@ -103,7 +124,7 @@ export default function PetPage(props) {
               onClick={favoriteOnClick}
             >
               <FavoriteBorderOutlinedIcon fontSize="large" />
-            </IconButton>
+            </IconButton> */}
             <Typography
               component="h2"
               variant="h5"

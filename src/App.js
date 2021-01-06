@@ -6,7 +6,7 @@ import PetPage from "./pages/PetPage";
 import { ModalContext } from "./context/ModalContext";
 import LandingPage from "./pages/LandingPage";
 import Theme from "./context/Theme";
-import { CssBaseline } from "@material-ui/core";
+import { Container, CssBaseline } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import NavBar from "./components/NavBar/NavBar";
 import { AuthContextProvider } from "./context/AuthContext";
@@ -17,6 +17,8 @@ import HomePage from "./pages/HomePage";
 import PrivateRoute from "./components/PrivateRoute";
 import AddPetFormPage from "./pages/AddPetFormPage";
 import DashboardPage from "./pages/DashboardPage";
+import UserPetsPage from "./pages/UserPetsPage";
+import UserSettingsPage from "./pages/UserSettingsPage";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,11 +26,11 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
   },
   background: {
-    backgroundImage: "url(/paws-2.png)",
-    backgroundRepeat: "repeat",
+    backgroundImage: "url(/paws-2.png), url(/paws-2.png)",
+    backgroundRepeat: "repeat-y",
     backgroundSize: "20vh",
-    backgroundPosition: "center bottom",
-    paddingTop: 20,
+    backgroundPosition: "left, right",
+    // paddingTop: 20,
   },
 }));
 
@@ -36,10 +38,17 @@ function App() {
   const classes = useStyles();
 
   let categories = [
-    { name: "Home page", path: "/" },
-    { name: "Search pet", path: "/pets" },
-    { name: "Add pet", path: "/admin/form" },
-    { name: "Dashboard", path: "/admin/dashboard" },
+    { name: "Home page", path: "/", access: 0, divider: false },
+    { name: "Search pet", path: "/pets", access: 0, divider: false },
+    { name: "My pets", path: "/profile/pets", access: 1, divider: false },
+    {
+      name: "Profile settings",
+      path: "/profile/settings",
+      access: 1,
+      divider: false,
+    },
+    { name: "Add pet", path: "/admin/form", access: 2, divider: true },
+    { name: "Dashboard", path: "/admin/dashboard", access: 2, divider: false },
   ];
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -70,19 +79,38 @@ function App() {
                   component={HomePage}
                   altcomponent={LandingPage}
                 />
-                <PrivateRoute
-                  path="/admin/form"
-                  needAdminRights={true}
-                  component={AddPetFormPage}
-                />
-                <PrivateRoute
-                  path="/admin/dashboard"
-                  needAdminRights={true}
-                  component={DashboardPage}
-                />
                 <div className={classes.background}>
-                  <Route exact path="/pets" component={SearchPage} />
-                  <Route path="/pets/:id" component={PetPage} />
+                  <Container maxWidth="lg" className="container">
+                    <PrivateRoute
+                      exact
+                      path="/profile/pets"
+                      component={UserPetsPage}
+                    />
+                    <PrivateRoute
+                      exact
+                      path="/profile/settings"
+                      component={UserSettingsPage}
+                    />
+                    <PrivateRoute
+                      exact
+                      path="/pets/:id/form"
+                      needAdminRights={true}
+                      component={AddPetFormPage}
+                    />
+                    <PrivateRoute
+                      exact
+                      path="/admin/form"
+                      needAdminRights={true}
+                      component={AddPetFormPage}
+                    />
+                    <PrivateRoute
+                      path="/admin/dashboard"
+                      needAdminRights={true}
+                      component={DashboardPage}
+                    />
+                    <Route exact path="/pets" component={SearchPage} />
+                    <Route exact path="/pets/:id" component={PetPage} />
+                  </Container>
                 </div>
               </div>
               <Modal open={modalOpen} onClose={handleCloseModal}>

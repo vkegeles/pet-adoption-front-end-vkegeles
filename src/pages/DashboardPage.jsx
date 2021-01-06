@@ -18,7 +18,7 @@ export default function DashboardPage() {
   const classes = useStyles();
 
   return (
-    <Container maxWidth="lg">
+    <>
       <Paper className={classes.main}>
         <Typography component="h1" variant="h4" color="primary" align="center">
           Users
@@ -38,6 +38,6 @@ export default function DashboardPage() {
           /* <PetTable /> */
         }
       </Paper>
-    </Container>
+    </>
   );
 }

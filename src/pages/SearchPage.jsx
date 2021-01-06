@@ -5,6 +5,8 @@ import { Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper } from "@material-ui/core";
 import { useLocation } from "react-router-dom";
+import * as API from "../apis/api";
+
 const useStyles = makeStyles((theme) => ({
   search: {
     marginBottom: theme.spacing(3),
@@ -28,16 +30,14 @@ export default function SearchPage(props) {
   }, [location]);
 
   return (
-    <Container maxWidth="lg">
-      <Paper className={classes.main}>
-        <SearchBar
-          className={classes.search}
-          value={value}
-          onChange={(newValue) => setValue(newValue)}
-          // onRequestSearch={() => doSomethingWith(value)}
-        />
-        <PetList />
-      </Paper>
-    </Container>
+    <>
+      <SearchBar
+        className={classes.search}
+        value={value}
+        onChange={(newValue) => setValue(newValue)}
+        // onRequestSearch={() => doSomethingWith(value)}
+      />
+      <PetList getPetMethod={API.getAllPets} />
+    </>
   );
 }

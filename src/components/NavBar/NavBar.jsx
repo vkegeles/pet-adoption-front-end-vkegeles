@@ -39,6 +39,7 @@ export default function NavBar(props) {
   }
 
   const onSignOut = () => {
+    // TODO window.alert(JSON.stringify(result, 0, 2));
     logout();
     history.push("/");
   };

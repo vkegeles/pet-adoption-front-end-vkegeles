@@ -10,10 +10,12 @@ import {
   Hidden,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
-import { IconButton } from "@material-ui/core";
+
 import Gender from "./Gender/Gender";
 import { pink } from "@material-ui/core/colors";
+import * as API from "../apis/api";
+import Like from "./Like";
+import { useAuth } from "../context/AuthContext";
 
 const useStyles = makeStyles({
   card: {
@@ -52,14 +54,28 @@ const useStyles = makeStyles({
   },
 });
 
-export default function PetCard({ pet }) {
+export default function PetCard({
+  pet,
+  isFavorite,
+  removePetFromFavorites,
+  addPetToFavorites,
+}) {
   const classes = useStyles();
   const history = useHistory();
+  const { user } = useAuth();
+
   const callback = useCallback(() => history.push(`/pets/${pet._id}`), [
     history,
     pet._id,
   ]);
-  const favoriteOnClick = (e) => e.stopPropagation();
+  const favoriteOnClick = (e) => {
+    e.stopPropagation();
+    if (isFavorite) {
+      removePetFromFavorites(pet._id);
+    } else {
+      addPetToFavorites(pet._id);
+    }
+  };
   const composedStyle = pet.picture
     ? {
         backgroundImage: `url("${pet.picture}")`,
@@ -93,13 +109,7 @@ export default function PetCard({ pet }) {
               </Typography>
             </CardContent>
           </CardActionArea>
-          <IconButton
-            aria-label="favorite"
-            component="span"
-            onClick={favoriteOnClick}
-          >
-            <FavoriteBorderOutlinedIcon fontSize="large" />
-          </IconButton>
+          {user && <Like onClick={favoriteOnClick} isFavorite={isFavorite} />}
         </div>
       </Card>
     </Grid>

@@ -20,3 +20,13 @@ body {
 .wrapper > * {
   padding: 20px;
 }
+
+.container {
+  padding-top: 20px;
+}
+.container:empty {
+  display: none;
+}
+.like {
+  float: right;
+}

@@ -1,7 +1,9 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-const ADMIN_STATUS = 2;
+import { Container } from "@material-ui/core";
+import Loading from "./Loading";
+import { ADMIN_STATUS } from "./../apis/constansts";
 
 export default function PrivateRoute({
   needAdminRights = false,
@@ -9,16 +11,19 @@ export default function PrivateRoute({
   altcomponent: AltComponent,
   ...rest
 }) {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
   const getContent = (props) => {
     let content;
-    if (user && (!needAdminRights || user.status === ADMIN_STATUS)) {
+    if (isLoading) {
+      content = <Loading />;
+    } else if (user && (!needAdminRights || user.status === ADMIN_STATUS)) {
       content = <Component {...props} />;
     } else if (AltComponent) {
       content = <AltComponent {...props} />;
     } else {
       content = <Redirect to="/" />;
     }
+
     return content;
   };
 

@@ -3,6 +3,7 @@ import { createStyles, makeStyles, useTheme } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import {
+  Divider,
   Drawer,
   Hidden,
   List,
@@ -10,6 +11,7 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { useAuth } from "./../../context/AuthContext";
 
 const drawerWidth = 240;
 
@@ -30,6 +32,11 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
+function DividerCond(props) {
+  if (props.show) return <Divider />;
+  else return null;
+}
+
 export default function DrawerMenu({
   categories,
   mobileOpen,
@@ -37,20 +44,30 @@ export default function DrawerMenu({
 }) {
   const classes = useStyles();
   const theme = useTheme();
+  const { user } = useAuth();
+  const status = user ? user.status : 0;
+
   const drawer = (
     <div>
       <List>
-        {categories.map((category, index) => (
-          <Link
-            to={category.path}
-            onClick={handleDrawerToggle}
-            className={classes.link}
-          >
-            <ListItem button key={category.name}>
-              <ListItemText primary={category.name} />
-            </ListItem>
-          </Link>
-        ))}
+        {categories.map(
+          (category, index) =>
+            category.access <= status && (
+              <>
+                <DividerCond show={category.divider} />
+                <Link
+                  key={index}
+                  to={category.path}
+                  onClick={handleDrawerToggle}
+                  className={classes.link}
+                >
+                  <ListItem button key={category.name}>
+                    <ListItemText primary={category.name} />
+                  </ListItem>
+                </Link>
+              </>
+            )
+        )}
       </List>
     </div>
   );
