@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function UserSettingsPage() {
-  const { user, getUser } = useAuth();
+  const { getUser } = useAuth();
   const history = useHistory();
   const classes = useStyles();
 
