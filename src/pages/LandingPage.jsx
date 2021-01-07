@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: "contain",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center bottom",
-    // backgroundBlendMode: "luminosity",
     color: "white",
   },
   overlay: {

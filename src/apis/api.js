@@ -1,10 +1,15 @@
 import { fetchClient } from "./fetchClient";
 
-export async function getAllPets(cb, search = null) {
-  console.log("search", search);
-  fetchClient.get(`/pet`).then((response) => {
-    cb(response.data);
-  });
+export async function getAllPets(cb, query = "") {
+  if (query) {
+    fetchClient.get(`/pet?${query}`).then((response) => {
+      cb(response.data);
+    });
+  } else {
+    fetchClient.get(`/pet`).then((response) => {
+      cb(response.data);
+    });
+  }
 }
 export async function getPetByID(petID, cb) {
   fetchClient.get(`/pet/` + petID).then((response) => {
@@ -75,6 +80,12 @@ export async function addPetToFavorites(petID, cb) {
 
 export async function removePetFromFavorites(petID, cb) {
   fetchClient.delete(`/user/me/pet/${petID}/save`).then((response) => {
+    cb(response.data);
+  });
+}
+
+export async function updateUser(user, cb) {
+  fetchClient.patch(`/user/me/`, user).then((response) => {
     cb(response.data);
   });
 }

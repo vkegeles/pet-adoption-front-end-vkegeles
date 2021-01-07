@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: "contain",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center bottom",
-    // backgroundBlendMode: "luminosity",
     color: "white",
   },
   overlay: {
@@ -53,7 +52,7 @@ export default function HomePage(props) {
   const [searchValue, setSearchValue] = useState("");
 
   return (
-    <div className={classes.root}>
+    <div>
       <Paper className={classes.main}>
         <div className={classes.overlay} />
         <Grid container>

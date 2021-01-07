@@ -3,13 +3,6 @@ import axios from "axios";
 import { fetchClient } from "./../apis/fetchClient";
 
 export function login(email, password) {
-  // const token = JSON.parse(localStorage.getItem("token"));
-  // let config = {
-  //   headers: {
-  //     authorization: "Bearer " + token,
-  //   },
-  // };
-
   return axios
     .post(`${baseURL}/login`, {
       email,
@@ -42,7 +35,6 @@ export async function signup(
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
       }
-
       return response.data;
     });
 }
@@ -55,7 +47,6 @@ export const logout = () => {
 export const getUser = () => {
   const token = localStorage.getItem("token");
   if (!token) {
-    //     // if no user in localStorage then the user must enter their credentials to proceed
     return Promise.resolve(null);
   }
   return new Promise((resolve, reject) => {

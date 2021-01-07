@@ -19,8 +19,8 @@ export default function PetList(props) {
     API.getCurrentUserFavoritePets(setFavorites);
     if (props.id) {
       props.getPetMethod(props.id, setPets);
-    } else if (props.search) {
-      props.getPetMethod(setPets, props.search);
+    } else if (props.query) {
+      props.getPetMethod(setPets, props.query);
     } else {
       props.getPetMethod(setPets);
     }
@@ -28,7 +28,6 @@ export default function PetList(props) {
 
   const removePetFromFavorites = (petID) => {
     setFavorites(favorites.filter((item) => item._id !== petID));
-    console.log(favorites);
     API.removePetFromFavorites(petID, (res) => {
       console.log("removed from db", res);
     });

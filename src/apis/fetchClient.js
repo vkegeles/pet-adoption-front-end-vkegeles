@@ -2,35 +2,6 @@ import axios from "axios";
 import { baseURL } from "./constansts";
 
 /**
- *
- * parse error response
- */
-// function parseError(messages) {
-//   // error
-//   if (messages) {
-//     if (messages instanceof Array) {
-//       return Promise.reject({ messages: messages });
-//     } else {
-//       return Promise.reject({ messages: [messages] });
-//     }
-//   } else {
-//     return Promise.reject({ messages: ["エラーが発生しました"] });
-//   }
-// }
-
-/**
- * parse response
- */
-// function parseBody(response) {
-//   //  if (response.status === 200 && response.data.status.code === 200) { // - if use custom status code
-//   if (response.status === 200) {
-//     return response.data.result;
-//   } else {
-//     return this.parseError(response.data.messages);
-//   }
-// }
-
-/**
  * axios instance
  */
 let instance = axios.create({
@@ -51,21 +22,5 @@ instance.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-
-// // response parse
-// instance.interceptors.response.use(
-//   (response) => {
-//     return parseBody(response);
-//   },
-//   (error) => {
-//     console.warn("Error status", error.response.status);
-//     // return Promise.reject(error)
-//     if (error.response) {
-//       return parseError(error.response.data);
-//     } else {
-//       return Promise.reject(error);
-//     }
-//   }
-// );
 
 export const fetchClient = instance;

@@ -29,7 +29,7 @@ function TabPanel(props) {
   );
 }
 
-function a11yProps(index) {
+function wrapped(index) {
   return {
     id: `wrapped-tab-${index}`,
     "aria-controls": `wrapped-tabpanel-${index}`,
@@ -37,8 +37,6 @@ function a11yProps(index) {
 }
 const useStyles = makeStyles({
   main: {
-    // backgroundColor: "rgb(214,123,138)",
-    // color: "white",
     padding: 20,
   },
 });
@@ -59,8 +57,8 @@ export default function UserPetsPage(props) {
         onChange={handleChange}
         aria-label="simple tabs example"
       >
-        <Tab label="My owned pets" {...a11yProps(0)} />
-        <Tab label="Favorites pets" {...a11yProps(1)} />
+        <Tab label="My owned pets" {...wrapped(0)} />
+        <Tab label="Favorites pets" {...wrapped(1)} />
       </Tabs>
       <TabPanel value={value} index={0}>
         <PetList getPetMethod={API.getUserOwnedPets} id={user._id} />

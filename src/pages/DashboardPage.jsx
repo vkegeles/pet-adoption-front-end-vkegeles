@@ -8,8 +8,6 @@ import * as API from "../apis/api";
 
 const useStyles = makeStyles({
   main: {
-    // backgroundColor: "rgb(214,123,138)",
-    // color: "white",
     padding: 20,
     marginTop: 20,
   },

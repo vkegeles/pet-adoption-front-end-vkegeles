@@ -45,6 +45,12 @@ export default function AddPetFormPage(props) {
     }
   }, [petID]);
 
+  useEffect(() => {
+    if (pet.picture) {
+      setImageUrl(pet.picture);
+    }
+  }, [pet]);
+
   const getInit = (fullPet) => {
     const allowedUpdates = [
       "name",
@@ -52,7 +58,6 @@ export default function AddPetFormPage(props) {
       "breed",
       "gender",
       "status",
-      "picture",
       "height",
       "weight",
       "color",
@@ -60,34 +65,59 @@ export default function AddPetFormPage(props) {
       "dietaryrestrictions",
       "hypoallergenic",
     ];
-    let init = Object.assign(fullPet);
+    let init = { ...fullPet };
     const params = Object.keys(init);
     params.forEach((param) => {
       if (!allowedUpdates.includes(param)) {
         delete init[param];
       }
     });
-    console.log(init);
     return init;
   };
 
+  const ImageUpload = (cb) => {
+    //ref is unsupported by libraries, waiting for fix
+    const { files } = document.querySelector('input[type="file"]');
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    formData.append("upload_preset", "hjlrywhe");
+    const options = {
+      method: "POST",
+      body: formData,
+    };
+
+    return fetch(
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+      options
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        setImageUrl(res.secure_url);
+        cb(res.secure_url);
+      })
+      .catch((err) => console.log(err));
+  };
+
   const onSubmit = (values) => {
-    let result = { ...values };
-    if (imageUrl) {
-      result = { ...values, picture: imageUrl };
-    }
-    console.log(result);
-    if (petID) {
-      API.updatePet(petID, result, (res) => {
-        console.log(res);
-        history.push(`/pets/${res._id}`);
-      });
-    } else {
-      API.addNewPet(result, (res) => {
-        console.log(res);
-        history.push(`/pets/${res._id}`);
-      });
-    }
+    const fetch = (image) => {
+      let result = { ...values };
+      if (image) {
+        result = { ...values, picture: image };
+      }
+      delete result["localimage"];
+      if (petID) {
+        API.updatePet(petID, result, (res) => {
+          history.push(`/pets/${res._id}`);
+        });
+      } else {
+        API.addNewPet(result, (res) => {
+          history.push(`/pets/${res._id}`);
+        });
+      }
+    };
+
+    if (values.localimage) ImageUpload((image) => fetch(image));
+    else fetch();
   };
   const validate = (values) => {
     const errors = {};
@@ -115,35 +145,12 @@ export default function AddPetFormPage(props) {
     return errors;
   };
 
-  const handleImageUpload = () => {
-    //ref is unsupported by libraries, waiting for fix
-    const { files } = document.querySelector('input[type="file"]');
-    const formData = new FormData();
-    formData.append("file", files[0]);
-    formData.append("upload_preset", "hjlrywhe");
-    const options = {
-      method: "POST",
-      body: formData,
-    };
-
-    // replace cloudname with your Cloudinary cloud_name
-    return fetch(
-      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-      options
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        setImageUrl(res.secure_url);
-      })
-      .catch((err) => console.log(err));
-  };
-
   return (
     <Form
       onSubmit={onSubmit}
       initialValues={getInit(pet)}
       validate={validate}
-      render={({ handleSubmit, form, submitting, pristine }) => (
+      render={({ handleSubmit, form, submitting, pristine, values }) => (
         <form onSubmit={handleSubmit} noValidate>
           <Paper className={classes.paper}>
             <Grid container alignItems="flex-start" spacing={2}>
@@ -161,29 +168,17 @@ export default function AddPetFormPage(props) {
               >
                 <Grid item>
                   <Field
-                    name="picture"
+                    name="localimage"
                     component={Input}
                     type="file"
+                    accept=".png, .jpg, .jpeg"
                     label="Picture of pet"
                   />
                 </Grid>
                 <Grid item>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleImageUpload}
-                  >
-                    Upload Image
-                  </Button>
-                </Grid>
-                <Grid item>
                   <p>The resulting image will be displayed here</p>
                   <Paper variant="outlined">
-                    <img
-                      src={imageUrl || "/paws.png"}
-                      alt="pet"
-                      className={classes.image}
-                    />
+                    <Picture local={values.localimage} url={imageUrl} />
                   </Paper>
                 </Grid>
               </Grid>
@@ -360,4 +355,19 @@ export default function AddPetFormPage(props) {
       )}
     />
   );
+}
+
+function Picture(props) {
+  const classes = useStyles();
+  let src = "";
+  if (props.local) {
+    const { files } = document.querySelector('input[type="file"]');
+    src = URL.createObjectURL(files[0]);
+  } else if (props.url) {
+    src = props.url;
+  } else {
+    src = "/paws.png";
+  }
+
+  return <img src={src} alt="pet" className={classes.image} />;
 }

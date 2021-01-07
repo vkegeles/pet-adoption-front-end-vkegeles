@@ -17,11 +17,6 @@ const useStyles = makeStyles({
       borderBottom: "unset",
     },
   },
-  main: {
-    // backgroundColor: "rgb(214,123,138)",
-    // color: "white",
-    padding: 20,
-  },
 });
 
 export default function UserRow({ user }) {
