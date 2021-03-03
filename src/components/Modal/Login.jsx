@@ -39,10 +39,15 @@ export default function Login(props) {
     e.preventDefault();
 
     try {
-      await login(email, password);
-      closeModal();
+      login(email, password)
+        .then((data) => {
+          closeModal();
+        })
+        .catch((error) => {
+          setError(error.response.data);
+        });
     } catch (err) {
-      setError("Failed to log in:", err);
+      setError(err);
     }
   }
 
@@ -51,10 +56,16 @@ export default function Login(props) {
       <Typography component="h1" variant="h5">
         Login
       </Typography>
-      <form className={classes.form} noValidate onSubmit={handleSubmit}>
+      {error && (
+        <Box component="h2" color="error.main">
+          Failed to login: {error}
+        </Box>
+      )}
+      <form className={classes.form} validate onSubmit={handleSubmit}>
         <TextField
           variant="outlined"
           margin="normal"
+          type="email"
           required
           fullWidth
           id="email"
@@ -76,8 +87,6 @@ export default function Login(props) {
           autoComplete="current-password"
           onChange={(event) => setPassword(event.target.value)}
         />
-        {error && <Box color="error.main">{error}</Box>}
-
         <Button
           type="submit"
           fullWidth

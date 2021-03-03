@@ -22,15 +22,17 @@ export default function SignUp(props) {
 
   const classes = useStyles();
 
-  async function handleSubmit({
-    email,
-    password,
-    firstname,
-    lastname,
-    phonenumber,
-  }) {
-    await signup(email, password, firstname, lastname, phonenumber);
-    closeModal();
+  async function handleSubmit(
+    { email, password, firstname, lastname, phonenumber },
+    cbError
+  ) {
+    signup(email, password, firstname, lastname, phonenumber)
+      .then((data) => {
+        closeModal();
+      })
+      .catch((error) => {
+        cbError(error.response.data);
+      });
   }
 
   return (

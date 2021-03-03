@@ -33,7 +33,6 @@ export default function SearchPage(props) {
 
   let location = useLocation();
   useEffect(() => {
-    console.log("refresh");
     if (location.search) {
       const search = new URLSearchParams(location.search);
       setParams(search);

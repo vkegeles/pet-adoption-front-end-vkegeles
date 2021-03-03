@@ -22,13 +22,21 @@ const AuthContextProvider = (props) => {
       .signup(username, password, firstname, lastname, phonenumber)
       .then((data) => {
         setUser(data.user);
+      })
+      .catch((error) => {
+        throw error;
       });
   };
 
   const login = (email, password) => {
-    return auth.login(email, password).then((data) => {
-      setUser(data.user);
-    });
+    return auth
+      .login(email, password)
+      .then((data) => {
+        setUser(data.user);
+      })
+      .catch((error) => {
+        throw error;
+      });
   };
 
   const logout = async () => {
@@ -38,7 +46,6 @@ const AuthContextProvider = (props) => {
 
   const getUser = () => {
     auth.getUser().then((newUser) => {
-      console.log("user", newUser);
       setUser(newUser);
       setIsLoading(false);
     });
